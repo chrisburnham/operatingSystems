@@ -422,6 +422,7 @@ system_call_fastpath:
 #endif
 	ja ret_from_sys_call  /* and return regs->ax */
 	movq %r10,%rcx
+	incq call_counters(,%rax,8)     /* added to count system calls */
 	call *sys_call_table(,%rax,8)  # XXX:	 rip relative
 	movq %rax,RAX-ARGOFFSET(%rsp)
 /*
