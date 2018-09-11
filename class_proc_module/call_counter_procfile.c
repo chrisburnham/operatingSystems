@@ -16,8 +16,7 @@ Systems) class.
 #include <linux/proc_fs.h>  /* Needed for /proc stuff.        */
 #include <linux/seq_file.h> /* Needed for the seq_file stuff. */
 
-
-static const int num_counters = 550; // Value must be <= the value defined in syscall_64.c
+#define NUM_COUNTERS = 550; // Value must be <= the value defined in syscall_64.c
 
 static const char module_name[20] = "system_call_counter";
 
@@ -46,9 +45,9 @@ static struct seq_operations call_counter_seq_ops = {
  */
 static void *call_counter_seq_start( struct seq_file *s, loff_t *record_number )
 {
-    extern unsigned long call_counters[550];
+    extern unsigned long call_counters[NUM_COUNTERS];
 
-    if( *record_number >= num_counters ) 
+    if( *record_number >= NUM_COUNTERS ) 
         return NULL;
 
     return &call_counters[*record_number];
@@ -65,12 +64,12 @@ static void *call_counter_seq_start( struct seq_file *s, loff_t *record_number )
  */
 static void *call_counter_seq_next( struct seq_file *s, void *bookmark, loff_t *record_number )
 {
-    extern unsigned long call_counters[550];
+    extern unsigned long call_counters[NUM_COUNTERS];
 
     (*record_number)++;
 
     /* In this simple example record_number is sufficient to find the next item. */
-    if( *record_number >= num_counters ) 
+    if( *record_number >= NUM_COUNTERS ) 
         return NULL;
 
     return &call_counters[*record_number];
