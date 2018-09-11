@@ -1,23 +1,13 @@
 /****************************************************************************
-FILE   : hello_procfile.c
+
+FILE   : call_counters.c
 SUBJECT: Skeleton for a module that uses the seq file API.
-AUTHOR : (C) Copyright 2015 by Peter C. Chapin
+AUTHOR : Chris Burnham - Modified from hello_procfile by Peter C. Chapin
 
 This module creates a file in the /proc file system that uses the seq file API to display
 "records" of information. This file is part of Vermont Technical College's CIS-4020 (Operating
 Systems) class.
 
-EXERCISE: Modify this module so that when the /proc file is read it outputs all primes less than
-1,000,000. To do this you will need to compute the primes on demand. Don't just try increasing
-the size of the primes[] array!
-
-Please send comments or bug reports to
-
-     Peter C. Chapin
-     Computer Information Systems
-     Vermont Technical College
-     Williston, VT 05495
-     PChapin@vtc.vsc.edu
 ****************************************************************************/
 
 #include <linux/module.h>   /* Needed for any module.         */
