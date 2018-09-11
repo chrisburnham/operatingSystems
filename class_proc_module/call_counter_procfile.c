@@ -16,15 +16,6 @@ Systems) class.
 #include <linux/proc_fs.h>  /* Needed for /proc stuff.        */
 #include <linux/seq_file.h> /* Needed for the seq_file stuff. */
 
-/* This example outputs the prime numbers less than 100. */
-//#define PRIME_COUNT 25
-//int primes[PRIME_COUNT] = {
-//     2,  3,  5,  7, 11,
-//    13, 17, 19, 23, 29,
-//    31, 37, 41, 43, 47,
-//    53, 59, 61, 67, 71,
-//    73, 79, 83, 89, 97
-//};
 
 static const int num_counters = 550; // Value must be <= the value defined in syscall_64.c
 
@@ -38,11 +29,13 @@ static int   call_counter_seq_show ( struct seq_file *s, void *v );
 
 /* Gather our sequence handling functions into a seq_operations structure. */
 static struct seq_operations call_counter_seq_ops = {
-    .start = hello_seq_start,
-    .next  = hello_seq_next,
-    .stop  = hello_seq_stop,
-    .show  = hello_seq_show
+    .start = call_counter_seq_start,
+    .next  = call_counter_seq_next,
+    .stop  = call_counter_seq_stop,
+    .show  = call_counter_seq_show
 };
+
+///////////////////////////////////////////////////////////////////////
 
 /*
  * call_counter_seq_start
@@ -56,6 +49,8 @@ static void *call_counter_seq_start( struct seq_file *s, loff_t *record_number )
     if( *record_number >= num_counters ) return NULL;
     return &call_counters[*record_number];
 }
+
+///////////////////////////////////////////////////////////////////////
 
 /*
  * call_counter_seq_next
@@ -73,6 +68,8 @@ static void *call_counter_seq_next( struct seq_file *s, void *bookmark, loff_t *
     return &call_counters[*record_number];
 }
 
+///////////////////////////////////////////////////////////////////////
+
 /*
  * call_counter_seq_stop
  *
@@ -86,6 +83,7 @@ static void call_counter_seq_stop( struct seq_file *s, void *bookmark )
     /* Nothing needed. */
 }
 
+///////////////////////////////////////////////////////////////////////
 
 /*
  * call_counter_seq_show
@@ -99,6 +97,7 @@ static int call_counter_seq_show( struct seq_file *s, void *bookmark )
     return seq_printf( s, "%lu\n", *(int *)bookmark );
 }
 
+///////////////////////////////////////////////////////////////////////
 
 /* Define the only file handling function we need. */
 static int call_counter_open( struct inode *inode, struct file *file )
@@ -106,6 +105,7 @@ static int call_counter_open( struct inode *inode, struct file *file )
     return seq_open( file, &hello_seq_ops );
 }
 
+///////////////////////////////////////////////////////////////////////
 
 /* Use the seq_file file handling functions for some of the file operations. */
 static struct file_operations call_counter_file_ops = {
@@ -116,6 +116,7 @@ static struct file_operations call_counter_file_ops = {
     .release = seq_release
 };
 
+///////////////////////////////////////////////////////////////////////
 
 /*
  * system_call_counter_init  Called to load the module
@@ -144,6 +145,7 @@ static int __init system_call_counter_init( void )
     return 0;
 }
 
+///////////////////////////////////////////////////////////////////////
 
 /*
  * system_call_counter_exit  Called to unload the module
@@ -155,6 +157,7 @@ static void __exit system_call_counter_exit( void )
     printk( KERN_INFO "call_counter_procfile unloaded\n" );
 }
 
+///////////////////////////////////////////////////////////////////////
 
 /* Specify which functions do initialization and cleanup. */
 module_init( system_call_counter_init );
@@ -166,3 +169,6 @@ MODULE_LICENSE( "GPL" );
 MODULE_AUTHOR( "Chris Burnham <cburnham15@gmail.com>" );
 MODULE_DESCRIPTION( "Module to display system call counters." );
 
+
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
