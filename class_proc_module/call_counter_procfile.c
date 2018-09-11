@@ -19,7 +19,7 @@ Systems) class.
 
 static const int num_counters = 550; // Value must be <= the value defined in syscall_64.c
 
-static const char[20] module_name = "system_call_counter";
+static const char module_name[20] = "system_call_counter";
 
 /* Declare the sequence handling functions that we define (below). */
 static void *call_counter_seq_start( struct seq_file *s, loff_t *pos );
@@ -94,7 +94,7 @@ static void call_counter_seq_stop( struct seq_file *s, void *bookmark )
  */
 static int call_counter_seq_show( struct seq_file *s, void *bookmark )
 {
-    return seq_printf( s, "%lu\n", *(int *)bookmark );
+    return seq_printf( s, "%lu\n", *(unsigned long *)bookmark );
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -102,7 +102,7 @@ static int call_counter_seq_show( struct seq_file *s, void *bookmark )
 /* Define the only file handling function we need. */
 static int call_counter_open( struct inode *inode, struct file *file )
 {
-    return seq_open( file, &hello_seq_ops );
+    return seq_open( file, &call_counter_seq_ops );
 }
 
 ///////////////////////////////////////////////////////////////////////
