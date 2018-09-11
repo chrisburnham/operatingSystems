@@ -96,7 +96,7 @@ static void call_counter_seq_stop( struct seq_file *s, void *bookmark )
  */
 static int call_counter_seq_show( struct seq_file *s, void *bookmark )
 {
-    return seq_printf( s, "%d\n", *(int *)bookmark );
+    return seq_printf( s, "%lu\n", *(int *)bookmark );
 }
 
 
