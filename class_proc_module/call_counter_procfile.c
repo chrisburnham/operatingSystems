@@ -17,7 +17,7 @@ Systems) class.
 #include <linux/seq_file.h> /* Needed for the seq_file stuff. */
 
 // Value must be <= the value defined in syscall_64.c
-#define NUM_COUNTERS = 550
+#define NUM_COUNTERS 550
 
 static const char module_name[20] = "system_call_counter";
 
