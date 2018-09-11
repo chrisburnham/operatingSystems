@@ -1,6 +1,6 @@
 /****************************************************************************
 
-FILE   : call_counters.c
+FILE   : call_counter_procfile.c
 SUBJECT: Skeleton for a module that uses the seq file API.
 AUTHOR : Chris Burnham - Modified from hello_procfile by Peter C. Chapin
 

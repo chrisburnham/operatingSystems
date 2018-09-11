@@ -1,6 +1,6 @@
-obj-m += call_counters.o
+obj-m += call_counter_procfile.o
 
-call_counters.o:       call_counters.c
+call_counter_procfile.o:       call_counter_procfile.c
 
 # What if you want to build a module from multiple source files? Here is one way...
 #
