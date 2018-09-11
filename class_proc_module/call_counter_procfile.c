@@ -17,14 +17,16 @@ Systems) class.
 #include <linux/seq_file.h> /* Needed for the seq_file stuff. */
 
 /* This example outputs the prime numbers less than 100. */
-#define PRIME_COUNT 25
-int primes[PRIME_COUNT] = {
-     2,  3,  5,  7, 11,
-    13, 17, 19, 23, 29,
-    31, 37, 41, 43, 47,
-    53, 59, 61, 67, 71,
-    73, 79, 83, 89, 97
-};
+//#define PRIME_COUNT 25
+//int primes[PRIME_COUNT] = {
+//     2,  3,  5,  7, 11,
+//    13, 17, 19, 23, 29,
+//    31, 37, 41, 43, 47,
+//    53, 59, 61, 67, 71,
+//    73, 79, 83, 89, 97
+//};
+
+static const char[20] module_name = "system_call_counter";
 
 /* Declare the sequence handling functions that we define (below). */
 static void *hello_seq_start( struct seq_file *s, loff_t *pos );
@@ -107,9 +109,9 @@ static int hello_open( struct inode *inode, struct file *file )
 
 
 /* Use the seq_file file handling functions for some of the file operations. */
-static struct file_operations hello_file_ops = {
+static struct file_operations call_counter_file_ops = {
     .owner   = THIS_MODULE,
-    .open    = hello_open,
+    .open    = call_counter_open,
     .read    = seq_read,  /* Look at source of seq_read to understand protocol. */
     .llseek  = seq_lseek,
     .release = seq_release
@@ -117,17 +119,19 @@ static struct file_operations hello_file_ops = {
 
 
 /*
- * hello_init
+ * system_call_counter_init  Called to load the module
  */
-static int __init hello_init( void )
+static int __init system_call_counter_init( void )
 {
     struct proc_dir_entry *entry;
     kuid_t user_id;
     kgid_t group_id;
 
     /* Create a new entry in the /proc file system. */
-    if( ( entry = proc_create( "primes", S_IFREG | S_IRUGO, NULL, &hello_file_ops ) ) == NULL ) {
-      printk( KERN_ERR "hello_procfile NOT loaded. Error encountered creating /proc file.\n" );
+    if( ( entry = proc_create( module_name, (S_IFREG | S_IRUGO), 
+                               NULL, &call_counter_file_ops ) ) == NULL ) 
+    {
+      printk( KERN_ERR "call_counter_procfile NOT loaded. Error encountered creating /proc file.\n" );
       return -ENOMEM;
     }
 
@@ -137,29 +141,29 @@ static int __init hello_init( void )
     proc_set_user( entry, user_id, group_id );
     proc_set_size( entry, 0 ); /* A more appropriate size might be nice. */
 
-    printk( KERN_INFO "hello_procfile loaded\n" );
+    printk( KERN_INFO "call_counter_procfile loaded\n" );
     return 0;
 }
 
 
 /*
- * hello_exit
+ * system_call_counter_exit  Called to unload the module
  */
-static void __exit hello_exit( void )
+static void __exit system_call_counter_exit( void )
 {
     /* Locate the named proc entry and unregister it. */
-    remove_proc_entry( "primes", NULL );
-    printk( KERN_INFO "hello_procfile unloaded\n" );
+    remove_proc_entry( module_name, NULL );
+    printk( KERN_INFO "call_counter_procfile unloaded\n" );
 }
 
 
 /* Specify which functions do initialization and cleanup. */
-module_init( hello_init );
-module_exit( hello_exit );
+module_init( system_call_counter_init );
+module_exit( system_call_counter_exit );
 
 
 /* Take care of some documentation tasks. */
 MODULE_LICENSE( "GPL" );
-MODULE_AUTHOR( "Peter C. Chapin <PChapin@vtc.vsc.edu>" );
-MODULE_DESCRIPTION( "Module to display prime numbers." );
+MODULE_AUTHOR( "Chris Burnham <cburnham15@gmail.com>" );
+MODULE_DESCRIPTION( "Module to display system call counters." );
 
