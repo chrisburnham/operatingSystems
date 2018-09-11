@@ -29,13 +29,13 @@ Systems) class.
 static const char[20] module_name = "system_call_counter";
 
 /* Declare the sequence handling functions that we define (below). */
-static void *hello_seq_start( struct seq_file *s, loff_t *pos );
-static void *hello_seq_next ( struct seq_file *s, void *v, loff_t *pos );
-static void  hello_seq_stop ( struct seq_file *s, void *v );
-static int   hello_seq_show ( struct seq_file *s, void *v );
+static void *call_counter_seq_start( struct seq_file *s, loff_t *pos );
+static void *call_counter_seq_next ( struct seq_file *s, void *v, loff_t *pos );
+static void  call_counter_seq_stop ( struct seq_file *s, void *v );
+static int   call_counter_seq_show ( struct seq_file *s, void *v );
 
 /* Gather our sequence handling functions into a seq_operations structure. */
-static struct seq_operations hello_seq_ops = {
+static struct seq_operations call_counter_seq_ops = {
     .start = hello_seq_start,
     .next  = hello_seq_next,
     .stop  = hello_seq_stop,
@@ -44,13 +44,13 @@ static struct seq_operations hello_seq_ops = {
 
 
 /*
- * hello_seq_start
+ * call_counter_seq_start
  *
  * This function is called each time the application calls read(). It starts the process of
  * accumulating data to fill the application buffer. Return a pointer representing the current
  * item. Return NULL if there are no more items.
  */
-static void *hello_seq_start( struct seq_file *s, loff_t *record_number )
+static void *call_counter_seq_start( struct seq_file *s, loff_t *record_number )
 {
     if( *record_number == PRIME_COUNT ) return NULL;
     return &primes[*record_number];
@@ -58,13 +58,13 @@ static void *hello_seq_start( struct seq_file *s, loff_t *record_number )
 
 
 /*
- * hello_seq_next
+ * call_counter_seq_next
  *
  * This function is called to compute the next record in the sequence given a pointer to the
  * current record (in bookmark). It returns a pointer to the new record (essentially, an updated
  * bookmark) and updates *record_number appropriately. Return NULL if there are no more items.
  */
-static void *hello_seq_next( struct seq_file *s, void *bookmark, loff_t *record_number )
+static void *call_counter_seq_next( struct seq_file *s, void *bookmark, loff_t *record_number )
 {
     (*record_number)++;
 
@@ -75,34 +75,34 @@ static void *hello_seq_next( struct seq_file *s, void *bookmark, loff_t *record_
 
 
 /*
- * hello_seq_stop
+ * call_counter_seq_stop
  *
  * This function is called whenever an application buffer is filled (or when start or next
  * returns NULL. It can be used to undo any special preparations done in start (such as
  * deallocating auxillary memory that was allocated in start. In simple cases, you often do not
  * need to do anything in this function.
  */
-static void hello_seq_stop( struct seq_file *s, void *bookmark )
+static void call_counter_seq_stop( struct seq_file *s, void *bookmark )
 {
     /* Nothing needed. */
 }
 
 
 /*
- * hello_seq_show
+ * call_counter_seq_show
  *
  * This function is called after next to actually compute the output. It can use various seq_...
  * printing functions (such as seq_printf) to format the output. It returns 0 if successful or a
  * negative value if it fails.
  */
-static int hello_seq_show( struct seq_file *s, void *bookmark )
+static int call_counter_seq_show( struct seq_file *s, void *bookmark )
 {
     return seq_printf( s, "%d\n", *(int *)bookmark );
 }
 
 
 /* Define the only file handling function we need. */
-static int hello_open( struct inode *inode, struct file *file )
+static int call_counter_open( struct inode *inode, struct file *file )
 {
     return seq_open( file, &hello_seq_ops );
 }
