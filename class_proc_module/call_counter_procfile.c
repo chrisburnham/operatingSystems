@@ -46,7 +46,11 @@ static struct seq_operations call_counter_seq_ops = {
  */
 static void *call_counter_seq_start( struct seq_file *s, loff_t *record_number )
 {
-    if( *record_number >= num_counters ) return NULL;
+    extern unsigned long call_counters[num_counters];
+
+    if( *record_number >= num_counters ) 
+        return NULL;
+
     return &call_counters[*record_number];
 }
 
@@ -61,10 +65,14 @@ static void *call_counter_seq_start( struct seq_file *s, loff_t *record_number )
  */
 static void *call_counter_seq_next( struct seq_file *s, void *bookmark, loff_t *record_number )
 {
+    extern unsigned long call_counters[num_counters];
+
     (*record_number)++;
 
     /* In this simple example record_number is sufficient to find the next item. */
-    if( *record_number >= num_counters ) return NULL;
+    if( *record_number >= num_counters ) 
+        return NULL;
+
     return &call_counters[*record_number];
 }
 
