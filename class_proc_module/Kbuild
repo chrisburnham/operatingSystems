@@ -1,6 +1,6 @@
-obj-m += hello_procfile.o
+obj-m += call_counters.o
 
-hello_procfile.o:       hello_procfile.c
+call_counters.o:       call_counters.c
 
 # What if you want to build a module from multiple source files? Here is one way...
 #
