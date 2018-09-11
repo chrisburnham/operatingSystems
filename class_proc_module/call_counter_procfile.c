@@ -16,7 +16,8 @@ Systems) class.
 #include <linux/proc_fs.h>  /* Needed for /proc stuff.        */
 #include <linux/seq_file.h> /* Needed for the seq_file stuff. */
 
-#define NUM_COUNTERS = 550; // Value must be <= the value defined in syscall_64.c
+// Value must be <= the value defined in syscall_64.c
+#define NUM_COUNTERS = 550
 
 static const char module_name[20] = "system_call_counter";
 
