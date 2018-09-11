@@ -26,6 +26,8 @@ Systems) class.
 //    73, 79, 83, 89, 97
 //};
 
+static const int num_counters = 550; // Value must be <= the value defined in syscall_64.c
+
 static const char[20] module_name = "system_call_counter";
 
 /* Declare the sequence handling functions that we define (below). */
@@ -42,7 +44,6 @@ static struct seq_operations call_counter_seq_ops = {
     .show  = hello_seq_show
 };
 
-
 /*
  * call_counter_seq_start
  *
@@ -52,10 +53,9 @@ static struct seq_operations call_counter_seq_ops = {
  */
 static void *call_counter_seq_start( struct seq_file *s, loff_t *record_number )
 {
-    if( *record_number == PRIME_COUNT ) return NULL;
-    return &primes[*record_number];
+    if( *record_number >= num_counters ) return NULL;
+    return &call_counters[*record_number];
 }
-
 
 /*
  * call_counter_seq_next
@@ -69,10 +69,9 @@ static void *call_counter_seq_next( struct seq_file *s, void *bookmark, loff_t *
     (*record_number)++;
 
     /* In this simple example record_number is sufficient to find the next item. */
-    if( *record_number == PRIME_COUNT ) return NULL;
-    return &primes[*record_number];
+    if( *record_number >= num_counters ) return NULL;
+    return &call_counters[*record_number];
 }
-
 
 /*
  * call_counter_seq_stop
