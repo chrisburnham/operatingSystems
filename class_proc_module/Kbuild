@@ -1,0 +1,16 @@
+obj-m += hello_procfile.o
+
+hello_procfile.o:       hello_procfile.c
+
+# What if you want to build a module from multiple source files? Here is one way...
+#
+## obj-m specifies object files which are built as loadable kernel modules. If object
+## file "foo.o" is added to this array, module file "foo.ko" is created.
+#obj-m += example_module.o
+#
+## What does object file "example_module.o" depend upon?
+#example_module-objs := module.o other.o
+#
+#module.o:      module.c other.h
+#other.o:       other.c other.h
+
