@@ -102,7 +102,10 @@ static void call_counter_seq_stop( struct seq_file *s, void *bookmark )
  */
 static int call_counter_seq_show( struct seq_file *s, void *bookmark )
 {
-    return seq_printf( s, "%lu\n", *(unsigned long *)bookmark );
+    unsigned long *count_ptr = (unsigned long *)bookmark;
+    return seq_printf( s, "%d : %lu\n", 
+        (int)((count_ptr - &call_counters[0]) / size_of(unsigned long *)), 
+        *count_ptr );
 }
 
 ///////////////////////////////////////////////////////////////////////
