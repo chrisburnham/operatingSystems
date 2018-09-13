@@ -104,9 +104,9 @@ static int call_counter_seq_show( struct seq_file *s, void *bookmark )
 {
     const unsigned long *count_ptr = (unsigned long *)bookmark;
     extern unsigned long call_counters[NUM_COUNTERS];
-    
+
     return seq_printf( s, "%d : %lu\n", 
-        (int)((count_ptr - &call_counters[0]) / size_of(unsigned long *)), 
+        (int)((count_ptr - &call_counters[0]) / sizeof(unsigned long *)), 
         *count_ptr );
 }
 
