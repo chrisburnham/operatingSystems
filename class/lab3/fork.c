@@ -79,7 +79,7 @@
 #include <linux/fork_info.h>
 
 // I also needed
-#include <cstdlib>
+#include <cstdlib.h>
 
 #include <asm/pgtable.h>
 #include <asm/pgalloc.h>
