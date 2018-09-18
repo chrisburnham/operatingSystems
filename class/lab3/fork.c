@@ -78,9 +78,6 @@
 // My included file
 #include <linux/fork_info.h>
 
-// I also needed
-//#include <cstdlib.h>
-
 #include <asm/pgtable.h>
 #include <asm/pgalloc.h>
 #include <asm/uaccess.h>
