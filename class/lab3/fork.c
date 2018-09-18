@@ -1622,6 +1622,8 @@ static struct fork_info fork_ring_buffer[RING_BUFFER_SIZE];
 static int read_location = 0;
 static int write_location = 0;
 
+// TODO: Malloc is giving problems so we may want to
+// pass by reference instead and just do a deep copy
 void insert_fork_record(const struct fork_info* info)
 {
 	// TODO: Lock
