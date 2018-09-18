@@ -75,6 +75,9 @@
 #include <linux/aio.h>
 #include <linux/compiler.h>
 
+// My included file
+#include <linux/fork_info.h>
+
 #include <asm/pgtable.h>
 #include <asm/pgalloc.h>
 #include <asm/uaccess.h>
@@ -1614,6 +1617,38 @@ struct task_struct *fork_idle(int cpu)
 	return task;
 }
 
+#define RING_BUFFER_SIZE = 255
+static struct fork_info fork_ring_buffer[RING_BUFFER_SIZE];
+static int read_location = 0;
+static int write_location = 0;
+
+void insert_fork_record(const struct fork_info* info)
+{
+	// TODO: Lock
+	fork_ring_buffer[write_location] = *info;
+	write_location = (write_location + 1) % RING_BUFFER_SIZE;
+	if(read_location == write_location)
+	{
+		read_location = (write_location + 1) % RING_BUFFER_SIZE;
+	}
+	// TODO: Unlock
+}
+
+int get_last_fork_record(struct fork_info* info)
+{
+	// TODO: Lock
+	if(read_location == write_location)
+	{
+		return -1;
+	}
+	info = &fork_ring_buffer[read_location];
+	return 0;
+	// TODO: Unlock
+}
+
+EXPORT_SYMBOL(insert_fork_record);
+EXPORT_SYMBOL(get_last_fork_record);
+
 /*
  *  Ok, this is the main fork-routine.
  *
@@ -1687,6 +1722,18 @@ long do_fork(unsigned long clone_flags,
 	} else {
 		nr = PTR_ERR(p);
 	}
+
+	// Populate our ring buffer for fork info
+	struct fork_info* info = malloc(sizeof(fork_info));
+	info->clone_flags = clone_flags;
+	info->parent_id = current->pid;
+	info->child_id = p->pid;
+	info->parent_uid = current->cred.val;
+	get_task_comm(&info->command_name, current);
+	info->child_return = nr;
+
+	insert_fork_record(info);
+
 	return nr;
 }
 
