@@ -7,7 +7,7 @@ typedef struct fork_info
   int parent_pid;
   int child_pid;
   unsigned short parent_uid; // This may also be a unsigned long
-  char[16] command_name;
+  char command_name[16];
   long child_return;
 }
 

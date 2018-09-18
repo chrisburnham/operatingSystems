@@ -78,6 +78,9 @@
 // My included file
 #include <linux/fork_info.h>
 
+// I also needed
+#include <cstdlib>
+
 #include <asm/pgtable.h>
 #include <asm/pgalloc.h>
 #include <asm/uaccess.h>
@@ -1617,7 +1620,7 @@ struct task_struct *fork_idle(int cpu)
 	return task;
 }
 
-#define RING_BUFFER_SIZE = 255
+#define RING_BUFFER_SIZE 255
 static struct fork_info fork_ring_buffer[RING_BUFFER_SIZE];
 static int read_location = 0;
 static int write_location = 0;
