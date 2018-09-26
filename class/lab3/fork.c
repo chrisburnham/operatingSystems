@@ -1624,7 +1624,7 @@ static int write_location = 0;
 
 // TODO: Malloc is giving problems so we may want to
 // pass by reference instead and just do a deep copy
-void insert_fork_record(const Fork_info& info)
+void insert_fork_record(const Fork_info info)
 {
 	// TODO: Lock
 	fork_ring_buffer[write_location] = info;
@@ -1636,7 +1636,7 @@ void insert_fork_record(const Fork_info& info)
 	// TODO: Unlock
 }
 
-int get_last_fork_record(Fork_info& info)
+int get_last_fork_record(Fork_info* info)
 {
 	// TODO: Lock
 	if(read_location == write_location)
