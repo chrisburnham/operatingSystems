@@ -1728,9 +1728,12 @@ long do_fork(unsigned long clone_flags,
 	// Populate our ring buffer for fork info
 	Fork_info info;
 	info.clone_flags = clone_flags;
-	info.parent_id = current->pid;
-	info.child_id = p->pid;
-	info.parent_uid = current->cred.val;
+	info.parent_pid = current->pid;
+	info.child_pid = p->pid;
+
+	// TODO: Parent uid?
+	//info.parent_uid = current->cred.val;
+	
 	get_task_comm(&info.command_name, current);
 	info.child_return = nr;
 
