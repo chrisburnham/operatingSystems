@@ -1618,13 +1618,13 @@ struct task_struct *fork_idle(int cpu)
 }
 
 #define RING_BUFFER_SIZE 255
-static struct fork_info fork_ring_buffer[RING_BUFFER_SIZE];
+static Fork_info fork_ring_buffer[RING_BUFFER_SIZE];
 static int read_location = 0;
 static int write_location = 0;
 
 // TODO: Malloc is giving problems so we may want to
 // pass by reference instead and just do a deep copy
-void insert_fork_record(const struct fork_info& info)
+void insert_fork_record(const Fork_info& info)
 {
 	// TODO: Lock
 	fork_ring_buffer[write_location] = info;
@@ -1636,7 +1636,7 @@ void insert_fork_record(const struct fork_info& info)
 	// TODO: Unlock
 }
 
-int get_last_fork_record(struct fork_info* info)
+int get_last_fork_record(Fork_info& info)
 {
 	// TODO: Lock
 	if(read_location == write_location)
@@ -1726,7 +1726,7 @@ long do_fork(unsigned long clone_flags,
 	}
 
 	// Populate our ring buffer for fork info
-	struct fork_info info;
+	Fork_info info;
 	info.clone_flags = clone_flags;
 	info.parent_id = current->pid;
 	info.child_id = p->pid;

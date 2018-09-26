@@ -1,7 +1,7 @@
 #ifndef FORK_INFO_H
 #define FORK_INFO_H
 
-typedef struct fork_info
+typedef struct Fork_info
 {
   unsigned long clone_flags;
   int parent_pid;
@@ -9,7 +9,7 @@ typedef struct fork_info
   unsigned short parent_uid; // This may also be a unsigned long
   char command_name[16];
   long child_return;
-}
+} Fork_info;
 
 
 #endif // FORK_INFO_H
