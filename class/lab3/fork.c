@@ -1624,10 +1624,10 @@ static int write_location = 0;
 
 // TODO: Malloc is giving problems so we may want to
 // pass by reference instead and just do a deep copy
-void insert_fork_record(const struct fork_info* info)
+void insert_fork_record(const struct fork_info& info)
 {
 	// TODO: Lock
-	fork_ring_buffer[write_location] = *info;
+	fork_ring_buffer[write_location] = info;
 	write_location = (write_location + 1) % RING_BUFFER_SIZE;
 	if(read_location == write_location)
 	{
@@ -1726,13 +1726,13 @@ long do_fork(unsigned long clone_flags,
 	}
 
 	// Populate our ring buffer for fork info
-	struct fork_info* info = malloc(sizeof(fork_info));
-	info->clone_flags = clone_flags;
-	info->parent_id = current->pid;
-	info->child_id = p->pid;
-	info->parent_uid = current->cred.val;
-	get_task_comm(&info->command_name, current);
-	info->child_return = nr;
+	struct fork_info info;
+	info.clone_flags = clone_flags;
+	info.parent_id = current->pid;
+	info.child_id = p->pid;
+	info.parent_uid = current->cred.val;
+	get_task_comm(&info.command_name, current);
+	info.child_return = nr;
 
 	insert_fork_record(info);
 
