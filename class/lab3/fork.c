@@ -76,7 +76,7 @@
 #include <linux/compiler.h>
 
 // My included file
-#include <linux/fork_info.h>
+//#include <linux/fork_info.h>
 
 #include <asm/pgtable.h>
 #include <asm/pgalloc.h>
@@ -1616,7 +1616,7 @@ struct task_struct *fork_idle(int cpu)
 
 	return task;
 }
-
+/*
 #define RING_BUFFER_SIZE 255
 static Fork_info fork_ring_buffer[RING_BUFFER_SIZE];
 static int read_location = 0;
@@ -1649,7 +1649,7 @@ int get_last_fork_record(Fork_info* info)
 }
 
 EXPORT_SYMBOL(insert_fork_record);
-EXPORT_SYMBOL(get_last_fork_record);
+EXPORT_SYMBOL(get_last_fork_record);*/
 
 /*
  *  Ok, this is the main fork-routine.
@@ -1724,7 +1724,7 @@ long do_fork(unsigned long clone_flags,
 	} else {
 		nr = PTR_ERR(p);
 	}
-
+/*
 	// Populate our ring buffer for fork info
 	Fork_info info;
 	info.clone_flags = clone_flags;
@@ -1737,7 +1737,7 @@ long do_fork(unsigned long clone_flags,
 	get_task_comm(&info.command_name, current);
 	info.child_return = nr;
 
-	insert_fork_record(info);
+	insert_fork_record(info);*/
 
 	return nr;
 }
