@@ -9,7 +9,7 @@ fork_procfile.o:       fork_procfile.c
 #obj-m += example_module.o
 #
 ## What does object file "example_module.o" depend upon?
-#example_module-objs := module.o other.o
+fork_procfile-objs := fork.o
 #
 #module.o:      module.c other.h
 #other.o:       other.c other.h
