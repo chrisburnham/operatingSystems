@@ -15,6 +15,7 @@ Systems) class.
 #include <linux/init.h>     /* Needed for init/exit macros.   */
 #include <linux/proc_fs.h>  /* Needed for /proc stuff.        */
 #include <linux/seq_file.h> /* Needed for the seq_file stuff. */
+#include <linux/fork_info.h>
 
 static Fork_info fork_record;
 
@@ -116,8 +117,7 @@ static int fork_seq_show( struct seq_file *s, void *bookmark )
     //    (int)(count_ptr - &call_counters[0]), 
     //    *count_ptr );
 
-    return seq_printf(s, "flags = 0x%08lX, user = %5d, ppid = %5d, 
-                          cpid = %5d, comm = %8s, return = %ld\n",
+    return seq_printf(s, "flags = 0x%08lX, user = %5d, ppid = %5d, cpid = %5d, comm = %8s, return = %ld\n",
                           fork_record.clone_flags, fork_record.parent_uid,
                           fork_record.parent_pid, fork_record.child_pid,
                           fork_record.command_name, fork_record.child_return);
