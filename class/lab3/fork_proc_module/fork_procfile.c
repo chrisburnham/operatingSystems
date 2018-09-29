@@ -18,6 +18,7 @@ Systems) class.
 #include <linux/fork_info.h>
 
 static Fork_info fork_record;
+extern int get_last_fork_record(Fork_info* info);
 
 static const char module_name[20] = "fork_info";
 
