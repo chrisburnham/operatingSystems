@@ -81,6 +81,7 @@ static void *fork_seq_next( struct seq_file *s, void *bookmark, loff_t *record_n
 //        return NULL;
 //
 //    return &call_counters[*record_number];
+    return NULL; // TODO: Do we need to do something here?
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -194,7 +195,7 @@ module_exit( system_fork_exit );
 /* Take care of some documentation tasks. */
 MODULE_LICENSE( "GPL" );
 MODULE_AUTHOR( "Chris Burnham <cburnham15@gmail.com>" );
-MODULE_DESCRIPTION( "Module to display system call counters." );
+MODULE_DESCRIPTION( "Module to display info on forks." );
 
 
 ///////////////////////////////////////////////////////////////////////
