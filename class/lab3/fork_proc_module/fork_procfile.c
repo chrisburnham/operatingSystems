@@ -16,8 +16,7 @@ Systems) class.
 #include <linux/proc_fs.h>  /* Needed for /proc stuff.        */
 #include <linux/seq_file.h> /* Needed for the seq_file stuff. */
 
-// Value must be <= the value defined in syscall_64.c
-#define NUM_COUNTERS 550
+static Fork_info fork_record;
 
 static const char module_name[20] = "fork_info";
 
@@ -48,13 +47,14 @@ static void *fork_seq_start( struct seq_file *s, loff_t *record_number )
 {
     // TODO: First Fork record
 
+    return (get_last_fork_record(&fork_record) == -1) ? NULL : &fork_record;
 
-    extern unsigned long call_counters[NUM_COUNTERS];
-
-    if( *record_number >= NUM_COUNTERS ) 
-        return NULL;
-
-    return &call_counters[*record_number];
+//    extern unsigned long call_counters[NUM_COUNTERS];
+//
+//    if( *record_number >= NUM_COUNTERS ) 
+//        return NULL;
+//
+//    return &call_counters[*record_number];
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -70,15 +70,15 @@ static void *fork_seq_next( struct seq_file *s, void *bookmark, loff_t *record_n
 {
   // TODO: Next fork record
 
-    extern unsigned long call_counters[NUM_COUNTERS];
-
-    (*record_number)++;
-
-    /* In this simple example record_number is sufficient to find the next item. */
-    if( *record_number >= NUM_COUNTERS ) 
-        return NULL;
-
-    return &call_counters[*record_number];
+//    extern unsigned long call_counters[NUM_COUNTERS];
+//
+//    (*record_number)++;
+//
+//    /* In this simple example record_number is sufficient to find the next item. */
+//    if( *record_number >= NUM_COUNTERS ) 
+//        return NULL;
+//
+//    return &call_counters[*record_number];
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -109,12 +109,18 @@ static int fork_seq_show( struct seq_file *s, void *bookmark )
 {
     // TODO: Print out a fork record
 
-    const unsigned long *count_ptr = (unsigned long *)bookmark;
-    extern unsigned long call_counters[NUM_COUNTERS];
+    //const unsigned long *count_ptr = (unsigned long *)bookmark;
+    //extern unsigned long call_counters[NUM_COUNTERS];
 
-    return seq_printf( s, "%d : %lu\n", 
-        (int)(count_ptr - &call_counters[0]), 
-        *count_ptr );
+    //return seq_printf( s, "%d : %lu\n", 
+    //    (int)(count_ptr - &call_counters[0]), 
+    //    *count_ptr );
+
+    return seq_printf(s, "flags = 0x%08lX, user = %5d, ppid = %5d, 
+                          cpid = %5d, comm = %8s, return = %ld\n",
+                          fork_record.clone_flags, fork_record.parent_uid,
+                          fork_record.parent_pid, fork_record.child_pid,
+                          fork_record.command_name, fork_record.child_return);
 }
 
 ///////////////////////////////////////////////////////////////////////
