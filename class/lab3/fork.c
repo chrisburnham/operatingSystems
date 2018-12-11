@@ -1643,7 +1643,7 @@ int get_last_fork_record(Fork_info* info)
 	{
 		return -1;
 	}
-	info = &fork_ring_buffer[read_location];
+	*info = fork_ring_buffer[read_location];
 	read_location = (read_location + 1) % RING_BUFFER_SIZE;
 	return 0;
 	// TODO: Unlock
