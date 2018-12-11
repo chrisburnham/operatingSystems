@@ -64,7 +64,8 @@ static void *fork_seq_start( struct seq_file *s, loff_t *record_number )
 static void *fork_seq_next( struct seq_file *s, void *bookmark, loff_t *record_number )
 {
 
-    return NULL; // TODO: Do we need to do something here?
+    //return NULL; // TODO: Do we need to do something here?
+    return (get_last_fork_record(&fork_record) == -1) ? NULL : &fork_record;
 }
 
 ///////////////////////////////////////////////////////////////////////
