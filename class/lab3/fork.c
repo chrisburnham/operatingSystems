@@ -1731,8 +1731,6 @@ long do_fork(unsigned long clone_flags,
 	info.clone_flags = clone_flags;
 	info.parent_pid = current->pid;
 	info.child_pid = p->pid;
-
-	// TODO: Parent uid?
 	info.parent_uid = current->cred->euid.val;
 	
 	get_task_comm(&info.command_name, current);
