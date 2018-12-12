@@ -38,20 +38,11 @@ main(int argc, char *argv[])
     if (n == -1)
         exit(EXIT_FAILURE);
 
-    if (argc > 1)
-        printf("Old value: ");
     printf("%.*s", (int) n, line);
 
-    // if (argc > 1) {
-    //     if (lseek(fd, 0, SEEK_SET) == -1)
-    //         errExit("lseek");
 
-    //     if (write(fd, argv[1], strlen(argv[1])) != strlen(argv[1]))
-    //         fatal("write() failed");
-
-    //     system("echo /proc/sys/kernel/pid_max now contains "
-    //            "`cat /proc/sys/kernel/pid_max`");
-    // }
+    // TODO: want to read until it finishes (probably failure?)
+    // Then parser to get the values and format them to make it look nicer
 
     exit(EXIT_SUCCESS);
 }
